@@ -46,7 +46,44 @@ INSERT INTO rentals (movie_id, customer_id, rent_date, return_date) VALUES
     (4, 4, '2024-08-12', '2024-08-16'),
     (5, 5, '2024-04-20', '2024-04-23'),
     (1, 4, '2024-09-01', '2024-09-08'),
-    (2, 3, '2024-10-11', '2024-10-14'),
+    (2, 3, '2024-11-03', '2024-11-10'),
     (3, 1, '2024-03-16', '2024-03-18'),
     (4, 5, '2024-08-17', '2024-08-22'),
     (5, 2, '2024-02-29', '2024-03-03');
+
+-- SQL QUERIES:
+-- SEARCH VIA EMAIL:
+SELECT movies.title
+FROM customers
+JOIN rentals ON customers.id = rentals.customer_id
+JOIN movies ON movies.id = rentals.movie_id
+WHERE customers.email = 'declan.derible@keyin.com';
+
+-- SEARCH VIA MOVIE RENTAL LIST:
+SELECT customers.first_name || ' ' || customers.last_name || ', ID= ' || customers.id as movie5_rentals
+FROM customers
+JOIN rentals ON customers.id = rentals.customer_id
+JOIN movies ON movies.id = rentals.movie_id
+WHERE movie_id = 5;
+
+-- MOVIE RENTAL HISTORY:
+SELECT customers.first_name || ' ' || customers.last_name || ', ID= ' || customers.id as rental_history_name
+SELECT rentals.rent_date || ' to ' || rentals.return_date as rental_history_dates
+FROM movies
+JOIN rentals ON movies.id = rentals.customer_id
+JOIN customers ON customers.id = rentals.movie_id
+where movies.title = 'Avengers: Infinity War';
+
+-- SEARCH VIA DIRECTOR:
+SELECT customers.first_name || ' - Rented Movie(s): ' || movies.title as director_search
+FROM movies
+JOIN rentals ON movies.id = rentals.customer_id
+JOIN customers ON customers.id = rentals.movie_id
+WHERE movies.director = 'Emma Tammi';
+
+-- UNRETURNED MOVIES:
+SELECT customers.first_name || ' ' || customers.last_name || ', ID= ' || customers.id as customer_name
+SELECT rentals.rent_date || ' to ' || rentals.return_date as customer_rental_dates
+JOIN rentals ON movies.id = rentals.customer_id
+JOIN customers ON customers.id = rentals.movie_id
+WHERE rentals.return_date > CURRENT_DATE;
