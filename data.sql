@@ -18,9 +18,35 @@ CREATE TABLE customers (
 );
 
 CREATE TABLE rentals (
-    id SERIAL PRIMARY KEY,
     movie_id INT REFERENCES movies(id),
     customer_id INT REFERENCES customers(id),
     rent_date DATE,
     return_date DATE
 );
+
+-- INSERTED INFORMATION:
+INSERT INTO movies (title, year, genre, director, id) VALUES
+    ('Avengers: Infinity War', 2018, 'Sci-Fi', 'Russo Brothers', 1),
+    ('Spongebob Squarepants Movie', 2004, 'Family', 'Stephen Hillenburg', 2),
+    ('Five Nights at Freddys', 2023, 'Horror', 'Emma Tammi', 3),
+    ('Super Mario Bros. Movie', 2023, 'Comedy', 'Aaron Horvath', 4),
+    ('Bullet Train', 2022, 'Action', 'David Leitch', 5);
+
+INSERT INTO customers (first_name, last_name, email, phone_number, id) VALUES
+    ('Declan', 'Derible', 'declan.derible@keyin.com', '111-1111', 1),
+    ('Evan', 'Morris', 'evan.morris@keyin.com', '222-2222', 2),
+    ('Connor', 'Andrews', 'connor.andrews@keyin.com', '333-3333', 3),
+    ('Tristan', 'Greening', 'tristan.greening@keyin.com', '444-4444', 4),
+    ('Chris', 'Stoyles', 'chris.stoyles@keyin.com', '555-5555', 5);
+
+INSERT INTO rentals (movie_id, customer_id, rent_date, return_date) VALUES
+    (1, 1, '2024-10-29', '2024-11-01'),
+    (2, 2, '2024-01-06', '2024-01-12'),
+    (3, 3, '2024-05-14', '2024-05-16'),
+    (4, 4, '2024-08-12', '2024-08-16'),
+    (5, 5, '2024-04-20', '2024-04-23'),
+    (1, 4, '2024-09-01', '2024-09-08'),
+    (2, 3, '2024-10-11', '2024-10-14'),
+    (3, 1, '2024-03-16', '2024-03-18'),
+    (4, 5, '2024-08-17', '2024-08-22'),
+    (5, 2, '2024-02-29', '2024-03-03');
