@@ -1,0 +1,28 @@
+i hope a text file is fine I'm too lazy for a proper word document
+
+MOVIES TABLE:
+1NF - No one row will be the same as another, as all movies have 
+varying titles, release years, genres, and above all else, IDs.
+2NF - The table relies on the primary key, splitting movies away from
+their consumers, and all requirements of 1NF are fulfilled.
+3NF - The movies table solely contains information about movies, 
+removing transative dependencies, and maintaining requirements of
+1NF and 2NF.
+
+CUSTOMERS TABLE:
+1NF - No one row will be the same as another, as all customers have
+varying names, emails, and above all else, IDs.
+2NF - The table relies on the primary key, splitting customers away from
+their theratical interests, and all requirements of 1NF are fulfilled.
+3NF - The customers table solely contains information about customers, 
+removing transative dependencies, and maintaining requirements of
+1NF and 2NF.
+
+RENTALS TABLE:
+1NF - No one row will be the same as another as all rentals have
+varying movies rented, customers and rental dates.
+2NF - The table relies on the primary key, splitting rentals away from
+their owners, and all requirements of 1NF are fulfilled.
+3NF - The rentals table solely contains information about rentals, 
+removing transative dependencies, and maintaining requirements of
+1NF and 2NF.
