@@ -4,8 +4,8 @@ const { Pool } = require('pg');
 const pool = new Pool({
   user: 'postgres', //This _should_ be your username, as it's the default one Postgres uses
   host: 'localhost',
-  database: 'your_database_name', //This should be changed to reflect your actual database
-  password: 'your_database_password', //This should be changed to reflect the password you used when setting up Postgres
+  database: 'Sprint', //This should be changed to reflect your actual database
+  password: 'Dog43656', //This should be changed to reflect the password you used when setting up Postgres
   port: 5432,
 });
 
@@ -13,7 +13,31 @@ const pool = new Pool({
  * Creates the database tables, if they do not already exist.
  */
 async function createTable() {
-  // TODO: Add code to create Movies, Customers, and Rentals tables
+  const tables = `
+
+    CREATE TABLE IF NOT EXISTS movies (
+      title TEXT,
+      year INT,
+      genre TEXT,
+      director TEXT,
+      id SERIAL PRIMARY KEY
+    );
+
+    CREATE TABLE IF NOT EXISTS customers (
+      first_name TEXT,
+      last_name TEXT,
+      email TEXT,
+      phone_number TEXT,
+      id SERIAL PRIMARY KEY
+    );
+
+    CREATE TABLE IF NOT EXISTS rentals (
+      customer_id INT REFERENCES customers(id),
+      movie_id INT REFERENCES movies(id),
+      rent_date DATE,
+      return_date DATE
+    );
+  `
 };
 
 /**
@@ -25,14 +49,32 @@ async function createTable() {
  * @param {string} director Director of the movie
  */
 async function insertMovie(title, year, genre, director) {
-  // TODO: Add code to insert a new movie into the Movies table
+  const movieadd = {
+    text: 'INSERT INTO movies (title, year, genre, director) VALUES ($1, $2, $3, $4)',
+    values: [title, year, genre, director],
+  };
 };
 
 /**
  * Prints all movies in the database to the console
  */
 async function displayMovies() {
-  // TODO: Add code to retrieve and print all movies from the Movies table
+  const movieList = 'SELECT * FROM movies'
+  try {
+
+    const result = await pool.query(movieList);
+
+    if (result.rows.length > 0) {
+      result.rows.forEach((row) => {
+        console.log(
+          `${row.id}: MOVIE: ${row.movie_title} YEAR: ${row.movie_year} GENRE: ${row.movie_genre} DIRECTOR: ${row.movie_director}`
+        );
+      });
+    } else {
+      console.log("ERROR: No Movies In Database!");
+    }} catch (error) {
+      console.error("ERROR: Cannot Load Movie Contents!");
+    };
 };
 
 /**
@@ -42,7 +84,10 @@ async function displayMovies() {
  * @param {string} newEmail New email address of the customer
  */
 async function updateCustomerEmail(customerId, newEmail) {
-  // TODO: Add code to update a customer's email address
+  const email = {
+    text: 'UPDATE customers SET id = $1 WHERE email = $2',
+    values: [customerId, newEmail],
+  };
 };
 
 /**
@@ -51,7 +96,15 @@ async function updateCustomerEmail(customerId, newEmail) {
  * @param {number} customerId ID of the customer to remove
  */
 async function removeCustomer(customerId) {
-  // TODO: Add code to remove a customer and their rental history
+  const customer = {
+    text: 'DELETE FROM rentals WHERE customer_id = $1',
+    values: [customerId],
+  };
+
+  const rentals = {
+    text: 'DELETE FROM customers WHERE id = $1',
+    values: [customerId],
+  }
 };
 
 /**
