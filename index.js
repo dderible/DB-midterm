@@ -38,6 +38,13 @@ async function createTable() {
       return_date DATE
     );
   `
+
+  try {
+    await pool.query(query);
+    console.log("SUCCESS: Table(s) have been created!");
+  } catch (error) {
+    console.error("ERROR: Tables could not be created!");
+  }
 };
 
 /**
@@ -53,6 +60,13 @@ async function insertMovie(title, year, genre, director) {
     text: 'INSERT INTO movies (title, year, genre, director) VALUES ($1, $2, $3, $4)',
     values: [title, year, genre, director],
   };
+
+  try {
+    await pool.query(query);
+    console.log("SUCCESS: Movie has been added!");
+  } catch (error) {
+    console.error("ERROR: Movie could not be added!");
+  }
 };
 
 /**
@@ -88,6 +102,13 @@ async function updateCustomerEmail(customerId, newEmail) {
     text: 'UPDATE customers SET id = $1 WHERE email = $2',
     values: [customerId, newEmail],
   };
+
+  try {
+    await pool.query(query);
+    console.log("SUCCESS: Email has been updated!");
+  } catch (error) {
+    console.error("ERROR: Email could not be updated!");
+  }
 };
 
 /**
@@ -101,9 +122,23 @@ async function removeCustomer(customerId) {
     values: [customerId],
   };
 
+  try {
+    await pool.query(query);
+    console.log("SUCCESS: Customer information has been removed!");
+  } catch (error) {
+    console.error("ERROR: Customer could not be removed!");
+  }
+
   const rentals = {
     text: 'DELETE FROM customers WHERE id = $1',
     values: [customerId],
+  };
+
+  try {
+    await pool.query(query);
+    console.log("SUCCESS: Customer rental history has been removed!");
+  } catch (error) {
+    console.error("ERROR: Customer rental history could not be removed!");
   }
 };
 
